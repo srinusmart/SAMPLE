@@ -1,0 +1,66 @@
+import java.util.Random;
+import javax.swing.*;
+import java.util.Scanner;
+
+  class Vigenere
+   {
+     String key,keys;
+      Vigenere(String k)
+        {
+          key=new String(k);
+         }
+
+      String getKey()
+       {
+          return keys;
+       }
+
+      String encrypt(String s)
+	  {
+	   int i=0;
+	   StringBuffer buf=new StringBuffer(key.toUpperCase());
+		  StringBuffer ct=new StringBuffer(s.length());
+s=s.toUpperCase();
+         for(i=key.length();i+key.length()<=s.length();)
+            {
+               buf.append(key);
+               i+=key.length();
+             }
+       if(i<s.length())
+            	  buf.append(key.substring(0,(s.length()-i)));
+             keys=new String(buf);
+        for(i=0;i<s.length();i++)
+	          if(Character.isLetter(s.charAt(i)))
+         ct.append((char)((((s.charAt(i)-'A')+(keys.charAt(i)-'A'))%26)+'A'));
+	         else
+         ct.append(keys.charAt(i));
+                     return ct.toString();
+	   }
+
+	 String decrypt(String s)
+	  {
+	   int i=0;
+       StringBuffer pt=new StringBuffer(s.length());
+		   s=s.toUpperCase();
+        for(i=0;i<s.length();i++)
+		if(Character.isLetter(s.charAt(i)))
+           pt.append((char)(((s.charAt(i)-keys.charAt(i)+26)%26)+'A'));
+
+		 else
+          pt.append(s.charAt(i));
+                      return pt.toString();
+	   }
+	 public static void main(String args[])
+	  {
+        Vigenere v=new Vigenere("GSP");
+		    String pt=JOptionPane.showInputDialog(null,"Give Plain text.");
+    String ct=v.encrypt(pt);
+    JOptionPane.showMessageDialog(null,ct.toString(),
+"CIPHER TEXT: ",JOptionPane.PLAIN_MESSAGE);
+                String pt1=v.decrypt(ct);
+    JOptionPane.showMessageDialog(null,pt1.toString(),
+"PLAIN TEXT: ",JOptionPane.PLAIN_MESSAGE);
+   JOptionPane.showMessageDialog(null,v.getKey(),
+"KEY VALUE: ",JOptionPane.PLAIN_MESSAGE);
+           }
+    }//end of class
